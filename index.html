@@ -1,0 +1,42 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Échecs — by twagirumukiza</title><link rel="stylesheet" href="style.css"></head><body>
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+<defs>
+<symbol id="cp-P" viewBox="0 0 45 45">
+  <circle cx="22.5" cy="13" r="7"/>
+  <path d="M14 26 C14 20 18 17 22.5 17 C27 17 31 20 31 26 L34 35 L11 35 Z"/>
+  <rect x="9" y="35" width="27" height="5" rx="1.5"/>
+</symbol>
+<symbol id="cp-R" viewBox="0 0 45 45">
+  <path d="M9 10 h6 v5 h4 v-5 h7 v5 h4 v-5 h6 v9 l-3 3 v13 l4 6 H8 l4-6 V22 l-3-3 Z"/>
+</symbol>
+<symbol id="cp-N" viewBox="0 0 45 45">
+  <path d="M32 36 H13 c0-6 1-9 3-11 c-5-1-9-5-8-11 c1-5 6-8 10-6 c1-6 6-9 11-7 c4 2 6 6 4 10 c-2 4-5 5-5 8 c0 3 2 5 4 7 Z"/>
+</symbol>
+<symbol id="cp-B" viewBox="0 0 45 45">
+  <circle cx="22.5" cy="9" r="3"/>
+  <path d="M14 33 C14 22 18 15 22.5 10 C27 15 31 22 31 33 Z"/>
+  <rect x="10" y="33" width="25" height="5" rx="1.5"/>
+</symbol>
+<symbol id="cp-Q" viewBox="0 0 45 45">
+  <path d="M8 34 L8 12 L11.4 20 L14.8 10 L18.1 20 L22.5 8 L26.9 20 L30.2 10 L33.6 20 L37 12 L37 34 Z"/>
+  <circle cx="8" cy="12" r="2"/><circle cx="14.8" cy="10" r="2.2"/><circle cx="22.5" cy="8" r="2.4"/><circle cx="30.2" cy="10" r="2.2"/><circle cx="37" cy="12" r="2"/>
+  <rect x="7" y="34" width="31" height="5" rx="1.5"/>
+</symbol>
+<symbol id="cp-K" viewBox="0 0 45 45">
+  <rect x="21" y="4" width="3" height="8"/>
+  <rect x="18.5" y="7" width="8" height="3"/>
+  <path d="M12 34 L12 20 L17 26 L22.5 14 L28 26 L33 20 L33 34 Z"/>
+  <rect x="10" y="34" width="25" height="5" rx="1.5"/>
+</symbol>
+</defs>
+</svg>
+<header><button id="menuBtn">☰</button><div><b>ÉCHECS</b><small>by twagirumukiza</small></div><button id="soundBtn">🔊</button></header>
+<main>
+<section id="home" class="screen active"><div class="hero"><div class="king">♔</div><h1>Échecs</h1><p>Classique, élégant, stratégique.</p><div class="home-signature">by <strong>twagirumukiza</strong></div></div><div class="cards"><button id="aiBtn">♟️ <span><b>Contre l’IA</b><small>4 niveaux</small></span></button><button id="localBtn">👥 <span><b>2 joueurs local</b><small>Sur le même appareil</small></span></button><button id="onlineBtn">🌐 <span><b>Multijoueur</b><small>Salon privé • lien d’invitation</small></span></button></div></section>
+<section id="setup" class="screen panel"><button class="back">← Accueil</button><h2 id="setupTitle">Nouvelle partie</h2><div id="aiSetup"><label>Niveau IA<select id="level"><option value="1">Facile</option><option value="2" selected>Moyen</option><option value="3">Difficile</option><option value="4">Expert</option></select></label></div><label>Nom des Blancs<input id="playerName" maxlength="20" value="Joueur 1"></label><label id="p2Label">Nom des Noirs<input id="player2Name" maxlength="20" value="Joueur 2"></label><button class="primary" id="startBtn">Lancer la partie</button></section>
+<section id="online" class="screen panel"><button class="back">← Accueil</button><h2>Multijoueur</h2><label>Votre nom<input id="onlineName" maxlength="20" value="Joueur"></label><button class="primary" id="createBtn">Créer un salon</button><div class="or">ou</div><label>Code du salon<input id="roomInput" maxlength="6" placeholder="ABC123"></label><button class="secondary" id="joinBtn">Rejoindre</button><p id="onlineMsg"></p></section>
+<section id="lobby" class="screen panel"><button id="leaveLobby" class="back">← Quitter</button><h2>Salon privé</h2><div class="roomCode" id="roomCode">------</div><button class="secondary" id="shareBtn">Partager l’invitation</button><div id="players"></div><p id="lobbyMsg">En attente d’un adversaire…</p><button class="primary" id="launchOnline" disabled>Lancer la partie</button></section>
+<section id="game" class="screen"><div class="gamebar"><button id="gameHome">⌂</button><div id="status">Aux blancs de jouer</div><button id="flipBtn">↻</button></div><div class="playerTag top" id="topPlayer">Noirs</div><div id="board" class="board"></div><div class="playerTag bottom" id="bottomPlayer">Blancs</div><div class="actions"><button id="undoBtn">↶ Annuler</button><button id="resignBtn">Abandonner</button></div><div id="history" class="history"></div><div id="winner" class="winner hidden"><h2 id="winnerText"></h2><div><button id="rematch">Revanche</button><button id="winnerHome">Accueil</button></div></div></section>
+</main>
+<aside id="drawer"><button id="closeMenu">×</button><h2>Échecs</h2><button id="rulesBtn">Règles du jeu</button><button id="settingsBtn">Paramètres</button><p>by twagirumukiza</p></aside><div id="modal" class="modal hidden"><div class="modalBox"><button id="closeModal">×</button><div id="modalContent"></div></div></div><div id="toast"></div><canvas id="confetti"></canvas>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script><script src="script.js"></script></body></html>
