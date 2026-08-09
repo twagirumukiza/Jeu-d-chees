@@ -1,0 +1,133 @@
+:root{--bg:#f3efe6;--ink:#17231c;--green:#315c46;--light:#e8d9bd;--dark:#6f8b73;--card:#fffdf8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+button,input,select{font:inherit}button{cursor:pointer}header{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;max-width:760px;margin:auto}
+header button,.gamebar button{border:0;background:transparent;font-size:22px}header div{text-align:center;letter-spacing:.12em}header small{display:block;font-size:9px;letter-spacing:.08em}
+main{max-width:760px;margin:auto;padding:10px 16px 50px}.screen{display:none}.screen.active{display:block}
+.hero{text-align:center;padding:25px 0 18px}.king{font-size:76px;color:var(--green)}h1{font-family:Georgia,serif;font-size:46px;margin:0}h2{font-family:Georgia,serif}.hero p{opacity:.65}
+.cards{display:grid;gap:12px;max-width:500px;margin:auto}.cards button{display:flex;align-items:center;gap:18px;text-align:left;padding:18px;border:1px solid #d8d0c0;border-radius:18px;background:var(--card);font-size:25px;box-shadow:0 5px 18px #0000000a}.cards span{display:flex;flex-direction:column}.cards b{font-size:17px}.cards small{font-size:12px;opacity:.55;margin-top:3px}
+.panel{max-width:500px;margin:20px auto;background:var(--card);padding:24px;border-radius:22px;box-shadow:0 12px 40px #0001}.back{border:0;background:none;padding:0;color:var(--green)}
+label{display:grid;gap:7px;margin:18px 0;font-weight:650}input,select{padding:13px;border:1px solid #cbc4b7;border-radius:12px;background:white}.primary,.secondary{width:100%;padding:14px;border-radius:13px;font-weight:750}.primary{background:var(--green);color:white;border:0}.primary:disabled{opacity:.4}.secondary{background:white;border:1px solid var(--green);color:var(--green)}.or{text-align:center;margin:16px;opacity:.5}
+.roomCode{text-align:center;font:700 38px monospace;letter-spacing:.16em;padding:18px}.gamebar{display:flex;justify-content:space-between;align-items:center;max-width:min(92vw,600px);margin:auto;padding:4px}.gamebar #status{font-weight:700;text-align:center}
+.board{width:min(92vw,600px);aspect-ratio:1;margin:auto;display:grid;grid-template-columns:repeat(8,1fr);border:5px solid #263e30;border-radius:4px;overflow:hidden;box-shadow:0 14px 35px #0002;touch-action:manipulation}
+.square{display:flex;align-items:center;justify-content:center;position:relative;font-size:clamp(29px,8.8vw,62px);user-select:none}.square.light{background:var(--light)}.square.dark{background:var(--dark)}.square.selected{box-shadow:inset 0 0 0 5px #e6b84c}.square.move:after{content:"";width:22%;height:22%;border-radius:50%;background:#183d2a88;position:absolute}.square.capture:after{content:"";inset:5px;border:4px solid #b5453caa;border-radius:50%;position:absolute}.piece{line-height:1;filter:drop-shadow(0 2px 1px #0003)}.whitePiece{color:#fff;text-shadow:0 0 2px #111,0 1px 1px #111}.blackPiece{color:#111}
+.playerTag{max-width:min(92vw,600px);margin:8px auto;padding:8px 12px;font-weight:700}.playerTag.top{text-align:right}.actions{max-width:min(92vw,600px);margin:12px auto;display:flex;gap:10px}.actions button{flex:1;padding:10px;border:1px solid #c9c0af;background:#fff9;border-radius:10px}.history{max-width:min(92vw,600px);margin:auto;font-family:monospace;opacity:.7;max-height:80px;overflow:auto}
+.winner{max-width:min(92vw,600px);margin:15px auto;padding:16px;background:var(--green);color:#fff;border-radius:16px;text-align:center}.winner h2{margin:0 0 12px}.winner button{padding:10px 18px;border:0;border-radius:10px;margin:3px}.hidden{display:none!important}
+#drawer{position:fixed;left:-300px;top:0;width:280px;height:100%;background:#173b2a;color:white;padding:28px;z-index:20;transition:.25s}#drawer.open{left:0}#drawer button{display:block;width:100%;padding:13px;margin:8px 0;text-align:left;background:#ffffff12;border:0;color:white;border-radius:9px}#closeMenu{font-size:24px!important;text-align:right!important}
+.modal{position:fixed;inset:0;background:#0008;display:grid;place-items:center;z-index:30;padding:20px}.modalBox{background:#fffdf8;max-width:560px;max-height:85vh;overflow:auto;padding:24px;border-radius:20px;position:relative}.modalBox>button{position:absolute;right:14px;top:10px;border:0;background:none;font-size:25px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#17231c;color:white;padding:10px 16px;border-radius:20px;opacity:0;pointer-events:none;transition:.2s;z-index:50}#toast.show{opacity:1}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:40;width:100%;height:100%}
+@media(max-height:600px) and (orientation:landscape){body{overflow:auto}.board{width:min(72vh,560px)}main{padding-bottom:80px}.playerTag,.gamebar,.actions,.history,.winner{max-width:min(72vh,560px)}}
+
+.home-signature{margin-top:18px;font-family:Georgia,serif;font-size:14px;font-style:italic;letter-spacing:.08em;color:var(--green);opacity:.82}
+
+.home-signature{display:inline-block;margin-top:20px;padding:7px 15px;border-top:1px solid #315c4655;border-bottom:1px solid #315c4655;font-family:Georgia,serif;font-style:italic;color:var(--green);opacity:.9}
+
+
+/* ==========================================================
+   V1.3 — HABILLAGE BOIS/CRÈME
+   Base fonctionnelle : V1.2-CORRIGE
+   Moteur JS inchangé.
+   ========================================================== */
+:root{
+ --bg:#160f0b!important; --ink:#f4e1c5!important; --green:#8f5934!important;
+ --light:#efd2aa!important; --dark:#a77354!important; --card:#3a2518!important;
+ --gold:#d9a15e; --muted:#cbb397;
+}
+html{background:#160f0b}
+body{
+ color:#f4e1c5!important;
+ background:
+ radial-gradient(circle at 50% -15%,#57341f 0,#2a1a11 38%,#130c08 100%)!important;
+}
+header{color:#f4e1c5}
+header button,.gamebar button{
+ color:#f4e1c5!important;background:#ffffff08!important;
+ border:1px solid #a2704c44!important;border-radius:12px
+}
+header small{color:#d9a15e!important}
+.king{color:#d9a15e!important;text-shadow:0 5px 18px #0008}
+.hero p{color:#cbb397!important;opacity:1!important}
+.home-signature{
+ color:#d9a15e!important;border-color:#d9a15e55!important;
+ font-family:Georgia,serif!important;font-style:italic
+}
+.cards button{
+ background:linear-gradient(145deg,#4c301f,#321f15)!important;
+ color:#f4e1c5!important;border:1px solid #986a484d!important;
+ box-shadow:0 12px 28px #0005,inset 0 1px 0 #ffffff0c!important
+}
+.cards small{color:#cbb397!important;opacity:1!important}
+.panel{
+ background:linear-gradient(145deg,#49301f,#2c1c13)!important;
+ color:#f4e1c5!important;border:1px solid #986a484d!important;
+ box-shadow:0 18px 45px #0007!important
+}
+.back{color:#d9a15e!important}
+label{color:#efd6b6}
+input,select{
+ background:#1c120c!important;color:#f4e1c5!important;
+ border-color:#94674677!important
+}
+.primary{
+ background:linear-gradient(#b97843,#8c542f)!important;
+ color:#fff2dc!important;border:1px solid #ce9561!important
+}
+.secondary{
+ background:#ffffff08!important;color:#efd6b6!important;
+ border-color:#a9724b!important
+}
+.roomCode{color:#d9a15e!important}
+.gamebar{
+ background:linear-gradient(145deg,#4a301f,#2c1c13)!important;
+ border:1px solid #8d614344!important;border-radius:15px
+}
+.gamebar #status{color:#f4e1c5}
+.playerTag{color:#efd6b6!important}
+.board{
+ border:9px solid #5b3925!important;
+ outline:1px solid #b37b5155!important;
+ border-radius:8px!important;
+ box-shadow:0 18px 45px #0009!important
+}
+.square.light{background:linear-gradient(145deg,#f3d7b1,#e8c49b)!important}
+.square.dark{background:linear-gradient(145deg,#b98260,#9c6b4e)!important}
+.square.selected{box-shadow:inset 0 0 0 5px #e5b04d!important}
+.square.move:after{background:#5d351fa8!important}
+.square.capture:after{border-color:#913c32cc!important}
+.piece{
+ font-family:"Times New Roman","DejaVu Serif","Noto Serif Symbols",serif!important;
+ font-variant-emoji:text;
+ filter:drop-shadow(0 2px 1px #0007)!important
+}
+.whitePiece{
+ color:#fff8e9!important;
+ -webkit-text-stroke:1.1px #23150e;
+ text-shadow:0 1px 0 #fff,0 2px 3px #0007!important
+}
+.blackPiece{
+ color:#140c08!important;
+ -webkit-text-stroke:.3px #000;
+ text-shadow:0 1px 1px #fff2,0 2px 3px #0005!important
+}
+.actions button{
+ background:linear-gradient(145deg,#4a301f,#2e1d14)!important;
+ color:#f1d8b8!important;border-color:#93644366!important
+}
+.history{color:#cbb397!important;background:#0003!important}
+.winner{
+ background:linear-gradient(145deg,#71482b,#422719)!important;
+ color:#fff0d7!important;border:1px solid #c88d55!important
+}
+.winner button{background:#efd0a6!important;color:#352116!important}
+#drawer{
+ background:linear-gradient(180deg,#3d2719,#21150e)!important;
+ color:#f4e1c5!important;border-right:1px solid #99684755!important
+}
+#drawer button{background:#ffffff08!important;color:#f4e1c5!important}
+#drawer p{color:#d9a15e!important}
+.modalBox{
+ background:linear-gradient(145deg,#49301f,#291a12)!important;
+ color:#f4e1c5!important;border-color:#94654366!important
+}
+.modalBox>button{color:#f4e1c5!important}
+#toast{background:#e1bb82!important;color:#2a1a11!important}
