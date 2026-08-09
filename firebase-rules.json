@@ -1,0 +1,22 @@
+{
+  "rules": {
+    "chessRooms": {
+      "$roomId": {
+        ".read": "auth != null",
+        ".write": "auth != null",
+        ".validate": "!newData.exists() || newData.hasChildren(['hostId','phase','players'])",
+        "hostId": {
+          ".validate": "newData.isString()"
+        },
+        "phase": {
+          ".validate": "newData.val() === 'lobby' || newData.val() === 'playing'"
+        },
+        "players": {
+          "$uid": {
+            ".validate": "!newData.exists() || (newData.hasChildren(['name','color','connected']) && newData.child('name').isString() && (newData.child('color').val() === 'w' || newData.child('color').val() === 'b'))"
+          }
+        }
+      }
+    }
+  }
+}
